@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day Detail – 100 Days Tracker</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- Nav -->
+  <nav>
+    <div class="logo">100 Days<br>of Code</div>
+    <a href="/">Dashboard</a>
+    <a href="/#all-days">All Days</a>
+    <a href="/#revision">Revision</a>
+    <a href="/#search">Search</a>
+  </nav>
+
+  <main>
+    <div class="flex-between mb-8">
+      <a href="/" class="btn btn-secondary btn-sm">&larr; Back</a>
+      <div id="day-actions" class="flex gap-8"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="card" id="day-header">
+      <div class="label" id="dh-label">Day –</div>
+      <div class="flex-between mt-8">
+        <div>
+          <input type="text" id="dh-title-input" placeholder="Add a title for this day…"
+                 style="background:transparent;border:none;border-bottom:1px solid var(--border);
+                        border-radius:0;font-size:1.3rem;font-weight:600;padding:0;width:420px;"
+                 onblur="saveTitle()" />
+        </div>
+        <span class="badge" id="dh-badge"></span>
+      </div>
+      <div class="muted mt-8" id="dh-completion"></div>
+    </div>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+
+      <!-- LEFT column -->
+      <div style="flex:2;min-width:280px">
+
+        <!-- Description -->
+        <div class="card">
+          <h3>Description</h3>
+          <textarea id="desc-input" placeholder="What did you learn today? Describe in your own words…" rows="5"
+                    onblur="saveDescription()"></textarea>
+          <div class="muted mt-8" style="font-size:0.75rem">Auto-saved on focus change.</div>
+        </div>
+
+        <!-- Topics -->
+        <div class="card">
+          <h3>Topics Learned</h3>
+          <div class="chip-list" id="topics-list"></div>
+          <div class="form-row mt-8">
+            <input type="text" id="topic-input" placeholder="e.g. Variables, Loops, Functions…"
+                   onkeydown="if(event.key==='Enter')addTopic()" />
+            <button class="btn btn-secondary btn-sm" onclick="addTopic()" style="flex:none">Add</button>
+          </div>
+        </div>
+
+        <!-- Files -->
+        <div class="card">
+          <h3>Files Created</h3>
+          <div id="files-list"></div>
+          <div class="divider"></div>
+          <div class="form-group">
+            <label>File Path (relative to workspace)</label>
+            <input type="text" id="file-path-input" placeholder="CODES/Day-001/main.py" />
+          </div>
+          <div class="form-group">
+            <label>Description (optional)</label>
+            <input type="text" id="file-desc-input" placeholder="Main exercise file" />
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-secondary btn-sm" onclick="addFile()">Add File</button>
+            <button class="btn btn-secondary btn-sm" onclick="scanFolder()">Scan Day Folder</button>
+          </div>
+          <div id="scan-results" class="hidden mt-8"></div>
+        </div>
+
+        <!-- Reflection -->
+        <div class="card">
+          <h3>Reflection</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Difficulty</label>
+              <div class="star-group" id="stars-difficulty" data-field="difficulty"></div>
+            </div>
+            <div class="form-group">
+              <label>Understanding</label>
+              <div class="star-group" id="stars-understanding" data-field="understanding"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>What confused me?</label>
+            <textarea id="confusion-input" rows="3" onblur="saveReflection()"></textarea>
+          </div>
+          <div class="form-group">
+            <label>What should I revise?</label>
+            <textarea id="revision-notes-input" rows="3" onblur="saveReflection()"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Favourite thing learned</label>
+            <textarea id="fav-input" rows="2" onblur="saveReflection()"></textarea>
+          </div>
+          <div class="form-group">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" id="needs-revision-chk" onchange="saveReflection()" />
+              Mark this day as needing revision
+            </label>
+          </div>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT column -->
+      <div style="flex:1;min-width:220px">
+
+        <!-- Study Timer -->
+        <div class="card">
+          <h3>Study Timer</h3>
+          <div id="timer-status"></div>
+          <div class="timer-display hidden" id="timer-display">00:00:00</div>
+          <div class="flex gap-8 mt-8">
+            <button class="btn btn-success" id="start-btn" onclick="startTimer()">Start Studying</button>
+            <button class="btn btn-danger hidden" id="stop-btn" onclick="stopTimer()">Stop Studying</button>
+          </div>
+          <div class="session-list mt-8" id="session-list"></div>
+        </div>
+
+        <!-- Mark complete -->
+        <div class="card">
+          <h3>Day Status</h3>
+          <div id="status-section"></div>
+        </div>
+
+      </div><!-- /right -->
+    </div>
+  </main>
+</div>
+
+<div id="toast"></div>
+<script src="/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+print () function 
+it prints whats written inside with the address of the directory 
+
+String 
+it is a collection of characters enclosed with quotes ex: "World"
+
+StackOverflow website 
+it is a community of coders where most of the errors, warnings are explained and thier solution is provided by the experts
+
+EOF 
+End of the File
+
+Printing multiple lines using single print() function using \n
+ex: print("hello!\nMy name is Vaibhav");
+
+
+Concanate String using print is like this print( String1 + String2 )
+ex: print("Hello" + " " + "Vaibhav");
+
+

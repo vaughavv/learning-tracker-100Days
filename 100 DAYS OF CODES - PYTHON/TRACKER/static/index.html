@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100 Days of Code – Python Tracker</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ====== Navigation ====================================================== -->
+  <nav>
+    <div class="logo">100 Days<br>of Code</div>
+    <a href="#" class="active" data-page="dashboard">Dashboard</a>
+    <a href="#" data-page="all-days">All Days</a>
+    <a href="#" data-page="revision">Revision</a>
+    <a href="#" data-page="search">Search</a>
+  </nav>
+
+  <!-- ====== Main ============================================================ -->
+  <main>
+
+    <!-- ------------------------------------------------------------------ -->
+    <!-- DASHBOARD                                                           -->
+    <!-- ------------------------------------------------------------------ -->
+    <div class="page active" id="page-dashboard">
+      <div class="flex-between mb-8">
+        <div>
+          <h1>Python Learning Tracker</h1>
+          <p class="muted">100 Days of Code</p>
+        </div>
+        <div class="flex gap-8">
+          <button class="btn btn-secondary btn-sm" onclick="doBackup()">Backup Data</button>
+          <button class="btn btn-secondary btn-sm" onclick="doExport()">Export JSON</button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="card-row" id="stats-row">
+        <div class="stat-card"><div class="stat-value" id="s-completed">–</div><div class="stat-label">Days Completed</div></div>
+        <div class="stat-card"><div class="stat-value" id="s-pct">–</div><div class="stat-label">Completion</div></div>
+        <div class="stat-card"><div class="stat-value" id="s-time">–</div><div class="stat-label">Total Study Time</div></div>
+        <div class="stat-card"><div class="stat-value" id="s-topics">–</div><div class="stat-label">Topics Learned</div></div>
+        <div class="stat-card"><div class="stat-value" id="s-revision">–</div><div class="stat-label">Need Revision</div></div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="card">
+        <div class="flex-between">
+          <span class="label">Overall Progress</span>
+          <span class="muted" id="prog-text">0 / 100</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
+          <div class="progress-label" id="prog-blocks"></div>
+        </div>
+      </div>
+
+      <!-- Current Day + Recent in a row -->
+      <div class="card-row">
+
+        <!-- Current Day -->
+        <div style="flex:1.2">
+          <div class="current-day-panel" id="current-day-panel">
+            <div class="day-label">Current Day</div>
+            <div id="current-loading" class="muted">Loading…</div>
+            <div id="current-content" class="hidden">
+              <div class="day-number" id="cd-num"></div>
+              <div class="day-title" id="cd-title"></div>
+              <div class="mt-8 flex gap-8 flex-wrap">
+                <span class="badge" id="cd-badge"></span>
+              </div>
+              <div class="mt-8 flex gap-8">
+                <button class="btn btn-primary btn-sm" id="cd-open-btn">Open Day</button>
+                <button class="btn btn-success btn-sm" id="cd-timer-btn">Start Study Session</button>
+              </div>
+              <div id="cd-timer-display" class="timer-display hidden">00:00:00</div>
+            </div>
+          </div>
+
+          <!-- Active session warning (any day) -->
+          <div id="active-session-banner" class="card hidden" style="border-color: var(--warning)">
+            <div class="label text-warning">Study Session Active</div>
+            <div id="asb-day" class="muted mt-8"></div>
+            <div class="timer-display" id="asb-timer">00:00:00</div>
+            <button class="btn btn-warning btn-sm mt-8" id="asb-stop-btn">Stop Session</button>
+          </div>
+        </div>
+
+        <!-- Recent -->
+        <div style="flex:1">
+          <div class="card">
+            <h3>Recent Days</h3>
+            <div id="recent-list"><span class="muted">No completed days yet.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revision Queue -->
+      <div class="card">
+        <h3>Revision Queue</h3>
+        <div id="revision-queue-dash"><span class="muted">Nothing in the revision queue.</span></div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ -->
+    <!-- ALL DAYS                                                            -->
+    <!-- ------------------------------------------------------------------ -->
+    <div class="page" id="page-all-days">
+      <div class="flex-between mb-8">
+        <h1>All Days</h1>
+        <div class="flex gap-8">
+          <button class="btn btn-secondary btn-sm" id="filter-all"      onclick="filterDays('all')">All</button>
+          <button class="btn btn-secondary btn-sm" id="filter-completed" onclick="filterDays('completed')">Completed</button>
+          <button class="btn btn-secondary btn-sm" id="filter-progress"  onclick="filterDays('in_progress')">In Progress</button>
+          <button class="btn btn-secondary btn-sm" id="filter-not"       onclick="filterDays('not_started')">Not Started</button>
+        </div>
+      </div>
+      <div class="days-grid" id="days-grid">
+        <span class="muted">Loading…</span>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ -->
+    <!-- REVISION                                                            -->
+    <!-- ------------------------------------------------------------------ -->
+    <div class="page" id="page-revision">
+      <h1>Revision Queue</h1>
+      <p class="muted mb-8">Days marked as needing revision.</p>
+      <div id="revision-list"><span class="muted">Nothing to revise.</span></div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ -->
+    <!-- SEARCH                                                              -->
+    <!-- ------------------------------------------------------------------ -->
+    <div class="page" id="page-search">
+      <h1>Search</h1>
+      <div class="search-bar mt-8">
+        <input type="text" id="search-input" placeholder="Search days, topics, files…" />
+        <button class="btn btn-primary" onclick="doSearch()">Search</button>
+      </div>
+      <div id="search-results"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
